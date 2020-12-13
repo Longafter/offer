@@ -1,0 +1,19 @@
+<view class="body">
+    <block wx:for="{{cateInfoList}}" wx:key="index">
+        <view class="box" data-id="{{item._id}}" data-index="{{index}}" bindtap="_onGoToDetail">
+            <view class="layer">
+                <image class="pic" src="{{item.pic_url}}" mode="aspectFill"></image>
+                <view class="title">{{item.title}}</view>
+                <view class="date">
+                    <text class="font" space="ensp">截止时间  {{item.end_time}}</text>
+                </view>
+                <view wx:if="{{time < item.end_time}}">
+                    <text class="continue">报价进行中</text>
+                </view>
+                <view wx:else>
+                    <text class="end">报价已结束</text>
+                </view>
+            </view>
+        </view>
+    </block>
+</view>

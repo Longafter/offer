@@ -1,0 +1,49 @@
+<view class="content">
+    <view class="pic">
+        <image src="{{pigDetailInfo.pic_url}}" mode="aspectFill"></image>
+    </view>
+</view>
+<view class="info">
+    <view class="info-item">
+        <view>品种：</view>
+        <view>{{pigDetailInfo.varieties}}</view>
+    </view>
+    <view class="info-item">
+        <text>均重(kg)：</text>
+        <text>{{pigDetailInfo.avg_widgt}}</text>
+    </view>
+    <view class="info-item">
+        <text>数量(头)：</text>
+        <text>{{pigDetailInfo.num}}</text>
+    </view>
+    <view class="info-item" hidden="{{pigDetailInfo.base_widgt ? false : true}}">
+        <text>规格(kg)：</text>
+        <text>{{pigDetailInfo.base_widgt}}</text>
+    </view>
+    <view class="info-item">
+        <text>公   司：</text>
+        <text>{{pigDetailInfo.company}}</text>
+    </view>
+    <view class="info-item">
+        <text>交易地点：</text>
+        <text>{{pigDetailInfo.sale_place}}</text>
+    </view>
+    <view class="info-item">
+        <text>开始时间：</text>
+        <text>{{pigDetailInfo.start_time}}</text>
+    </view>
+    <view class="info-item">
+        <text>截止时间：</text>
+        <text>{{pigDetailInfo.end_time}}</text>
+    </view>
+    <view class="info-item" hidden="{{pigDetailInfo.salesperson ? false : true}}">
+        <text>销售员：</text>
+        <text>{{pigDetailInfo.salesperson}}</text>
+    </view>
+    <view class="info-item">
+        <text>咨询电话：</text>
+        <text>{{pigDetailInfo.telphone}}</text>
+    </view>
+    <button wx:if="{{time > pigDetailInfo.end_time}}" class="end">报价已结束</button>
+    <button wx:else bindtap="onGoToOffer" class="offer" data-id="{{pigDetailInfo._id}}">报价</button>
+</view>

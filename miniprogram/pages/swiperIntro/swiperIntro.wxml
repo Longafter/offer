@@ -1,0 +1,6 @@
+<view>
+    <image src="{{swiperIntro.picUrl}}"></image>
+</view>
+<view class="introduce">
+    <text class="summary">{{swiperIntro.introduce}}</text>
+</view>

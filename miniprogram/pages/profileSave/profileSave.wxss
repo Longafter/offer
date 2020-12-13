@@ -1,0 +1,20 @@
+.box {
+    margin: 20rpx;
+}
+.realName {
+    margin-bottom: 20rpx;
+}
+.image {
+    width: 440rpx;
+    height: 240rpx;
+    margin-bottom: 65rpx;
+}
+image {
+    width: 99%;
+    height: 99%;
+}
+.status {
+    border: 1px solid green;
+    padding: 8rpx;
+    margin-top: 60rpx;
+}

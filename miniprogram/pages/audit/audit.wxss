@@ -1,0 +1,36 @@
+.container {
+    height: 1000rpx;
+    display: flex;
+    flex-direction: column;
+    justify-content: space-between;
+}
+.header {
+    border: 1px solid green;
+    border-radius: 6%;
+    margin: 30rpx 10rpx 35rpx;
+    padding: 6rpx;
+}
+.header .blod {
+    font-size: 40rpx;
+    font-weight: 700;
+    color: red;
+}
+.box {
+    display: flex;
+}
+.qrcode {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+}
+image {
+    width: 380rpx;
+    height: 380rpx;
+}
+.status {
+    border: 1px solid green;
+    border-radius: 6%;
+    padding: 6rpx;
+    margin: 30rpx 10rpx 35rpx;
+}

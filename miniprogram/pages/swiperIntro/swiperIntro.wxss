@@ -1,0 +1,11 @@
+image {
+    width: 100%;
+    height: 420rpx;
+}
+.introduce {
+    margin: 15rpx;
+    border: 1px solid #000000;
+}
+.introduce .summary {
+    text-indent: 58rpx;
+}

@@ -1,0 +1,20 @@
+<!-- 轮播图 -->
+<swiper indicator-dots="true" autoplay="true" interval="2500" duration="500" indicatorActiveColor="#fff">
+  <block wx:for="{{swiperList}}" wx:key="_id">
+    <swiper-item>
+      <image src="{{item.picUrl}}" data-id="{{item._id}}" data-index="{{index}}" bindtap="_onGetIntro"></image>
+    </swiper-item>
+  </block>
+</swiper>
+
+<!-- 分类列表 -->
+<view class="cate-list">
+  <block wx:for="{{categoryList}}" wx:key="index" data-index="{{index}}">
+    <view class="box">
+        <view class="cate-item" data-id="{{item._id}}" data-name='{{item.name}}' data-index="{{index}}" bindtap='_onGetCateList'>
+        <image src="{{item.picUrl}}"></image>
+        <text>{{item.name}}</text>
+      </view>
+    </view>
+  </block>
+</view>

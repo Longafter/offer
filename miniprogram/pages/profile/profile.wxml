@@ -1,0 +1,31 @@
+<view class="box">
+    <view class="item box-name">
+        <text>姓名: </text>
+        <input class="input" type="text" bindinput="onGetRealname" placeholder="请输入" />
+    </view>
+    <text>身份证正面</text>
+    <view class="item box-posi">
+        <!-- 显示图片 -->
+        <view class="image-wrap" hidden="{{selectPhoto1}}">
+            <image class="image" src="{{image1}}" mode="aspectFill"></image>
+            <i class="iconfont icon-shanchu" bindtap="onDelImage1"></i>
+        </view>
+        <!-- 选择图片 -->
+        <view class="selectphoto" hidden="{{!selectPhoto1}}" bindtap="onChooseImage1">
+            <i class="iconfont icon-jiahao"></i>
+        </view>
+    </view>
+    <text>身份证背面</text>
+    <view class="item box-negi">
+        <!-- 显示图片 -->
+        <view class="image-wrap" hidden="{{selectPhoto2}}">
+            <image class="image" src="{{image2}}" mode="aspectFill"></image>
+            <i class="iconfont icon-shanchu" bindtap="onDelImage2"></i>
+        </view>
+        <!-- 选择图片 -->
+        <view class="selectphoto" hidden="{{!selectPhoto2}}" bindtap="onChooseImage2">
+            <i class="iconfont icon-jiahao"></i>
+        </view>
+    </view>
+    <button type="primary" bindtap="onSaveProfile">保存</button>
+</view>

@@ -1,0 +1,27 @@
+<view class="container">
+    <view class="header">
+        <text>请添加审核员二维码进行 <text class="blod">资格验证</text>\n请添加信息发布群二维码 <text class="blod">进群</text></text>
+    </view>
+    <view class="box">
+        <block wx:for="{{auditInfo}}" wx:key="index" data-index="{{index}}">
+            <view class="qrcode">
+                <image src="{{item.qrcode}}" data-url="{{item.qrcode}}" bindlongpress="saveImage"></image>
+                <text>审核员：{{item.name}}</text>
+                <image src="{{item.groupQrcode}}" data-url="{{item.groupQrcode}}" bindlongpress="saveImage"></image><text>{{item.name}}信息发布群</text>
+            </view>
+        </block>
+    </view>
+    <view class="body">
+        <view class="status">
+            <block wx:if="{{status === '1'}}">
+                <text>（报价资格）审核状态：审核通过</text>
+            </block>
+            <block wx:elif="{{status === '-1'}}">
+                <text>（报价资格）审核状态：账号已停用</text>
+            </block>
+            <block wx:else>
+                <text>（报价资格）审核状态：未审核</text>
+            </block>
+        </view>
+    </view>
+</view>

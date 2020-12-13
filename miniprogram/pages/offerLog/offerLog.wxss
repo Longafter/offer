@@ -1,0 +1,11 @@
+.box {
+    margin: 20rpx;
+}
+.box .items {
+    border: 1px solid green;
+    border-radius: 20rpx;
+    display: flex;
+    flex-direction: column;
+    margin-bottom: 10rpx;
+    padding-left: 8rpx;
+}

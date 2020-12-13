@@ -1,0 +1,22 @@
+/* 猪分类列表 */
+.opt-list {
+    display:flex;
+    flex-wrap: wrap;
+    width:100%;
+}
+.opt-list .box {
+    width:50%;
+    height: 330rpx;
+}
+.opt-list .opt-item {
+    width: 100%;
+    height: 100%;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+}
+.opt-list image {
+    width: 100rpx;
+    height: 80rpx;
+}

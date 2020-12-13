@@ -1,0 +1,76 @@
+/* 登录页面 */
+.myLogin {
+    height: 400rpx;
+    background-color: #006400;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    border-bottom-left-radius: 10%;
+    border-bottom-right-radius: 10%;
+    margin-bottom: 10rpx;
+}
+.myLogin .avatarUrl {
+    width: 200rpx;
+    height: 200rpx;
+    border: 1px solid tomato;
+    border-radius: 50%;
+    overflow:hidden;
+}
+.myLogin .mobile {
+    color: white;
+}
+.login_box{
+    width: 90%;
+    position: absolute;
+    top: 37%;
+    left: 5%;
+}
+.section{
+    width: 100%;
+    border-bottom: 4rpx solid tomato;
+    margin-top: 40rpx;
+    position: relative;
+}
+.section input{
+    height: 100rpx;
+    color: tomato;
+    box-sizing: border-box;
+    padding-left: 80rpx;
+    font-size: 36rpx;
+}
+.section image{
+    width: 60rpx;
+    height: 60rpx;
+    position: absolute;
+    top: 20rpx;
+    left: 10rpx;
+}
+.color{
+    color: tomato;
+}
+checkbox-group{
+    display: flex;
+    justify-content:flex-end;
+    margin-top: 30rpx;
+    color: tomato;
+    box-sizing: border-box;
+    padding-right: 20rpx;
+}
+.login{
+    margin-top: 60rpx;
+}
+.register{
+    margin-top: 30rpx;
+}
+.items > view {
+    border: 1px solid tomato;
+    border-radius: 20rpx;
+    margin: 15rpx;
+    font-size: x-large;
+    padding: 20rpx;
+    text-align: center;
+}
+.item .items-color {
+    color: grey;
+}

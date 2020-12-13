@@ -1,0 +1,8 @@
+<view class="opt-list">
+  <view class="box" wx:for="{{categoryList}}" wx:key="index" data-index="{{index}}">
+    <view class="opt-item" data-name='{{item.name}}' data-index="{{index}}" bindtap='_onGetCateList'>
+      <image src="{{item.picUrl}}"></image>
+      <text>{{item.name}}</text>
+    </view>
+  </view>
+</view>

@@ -1,0 +1,40 @@
+<view class="myLogin">
+    <view class="avatarUrl">
+        <open-data type="userAvatarUrl"></open-data>
+    </view>
+    <block wx:if="{{isLogin}}">
+      <view class="mobile">{{username}}</view>
+    </block>
+    <block wx:else></block>
+</view>
+<block wx:if="{{!isLogin}}">
+  <view class="login_box">
+    <view class="section">
+      <input placeholder="请输入姓名" value='{{username}}' placeholder-class="color"  bindinput="getUsername" />
+      <image src="https://7069-pintu-game-52d2a-1301643624.tcb.qcloud.la/pintu_icon/username.png"></image>
+    </view>
+    <view class="section">
+      <input password='true' placeholder="请输入密码" value='{{pass}}' placeholder-class="color" bindinput="getPassword" />
+      <image src="https://7069-pintu-game-52d2a-1301643624.tcb.qcloud.la/pintu_icon/pass.png"></image>
+    </view>
+    <checkbox-group bindchange="checkboxChange">
+      <label class="checkbox" wx:for="{{items}}" wx:key='this'>
+        <checkbox value="{{item.name}}" checked="{{item.checked}}" />{{item.value}}
+      </label>
+    </checkbox-group>
+    <button class="login" type="primary" open-type="getUserInfo" bindgetuserinfo="bindGetUserInfo">登录</button>
+    <button class="register" type="warn" bindtap="register">没有账号，先注册</button>
+  </view>
+</block>
+<block wx:else>
+  <view class="items">
+    <view class="items-offer" bindtap="onGetOfferLog">报价记录</view>
+    <!-- <block wx:if="{{status === '0'}}"> -->
+      <view class="items-profile" bindtap="onFirstOffer">初次报价进入</view>
+    <!-- </block> -->
+    <!-- <block wx:else>
+      <view class="items-profile" bindtap="onAlreadyFirstOffer">初次报价进入</view>
+    </block> -->
+    <view class="items-logout" bindtap="onGetLogout">退出登录</view>
+  </view>
+</block>

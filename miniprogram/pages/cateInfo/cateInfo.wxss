@@ -1,0 +1,48 @@
+.body {
+    width: 100%;
+    height: 100vh;
+}
+.body .box {
+    margin: 15rpx 15rpx 20rpx;
+    border: 1px solid green;
+    border-radius: 40rpx;
+}
+.body .layer {
+    display: flex;
+    flex-wrap: wrap;
+    position: relative;
+}
+.body .layer .pic {
+    width: 100%;
+    height: 380rpx;
+    border-top-left-radius: 40rpx;
+    border-top-right-radius: 40rpx;
+}
+.body .layer .title {
+    margin: 40rpx auto;
+    padding-bottom: 40rpx;
+    font-weight: bold;
+}
+.body .layer .date {
+    font-size: small;
+    position: absolute;
+    left: 30rpx;
+    bottom: 25rpx;
+}
+.layer .date .color {
+    color: grey;
+}
+.body .layer .continue {
+    font-size: small;
+    position: absolute;
+    right: 30rpx;
+    bottom: 25rpx;
+    color: green;
+}
+.body .layer .end {
+    font-size: small;
+    position: absolute;
+    right: 30rpx;
+    bottom: 25rpx;
+    color: red;
+}

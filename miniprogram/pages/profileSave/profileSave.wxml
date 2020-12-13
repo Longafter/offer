@@ -1,0 +1,23 @@
+<view class="box">
+    <view class="realName">姓名：{{profile.realName}}</view>
+    <view class="image">
+        <view>身份证正面：</view>
+        <image src="{{profile.IDCposi}}"></image>
+    </view>
+    <view class="image">
+        <view>身份证背面：</view>
+        <image src="{{profile.IDCnegi}}"></image>
+    </view>
+    <button type="primary" bindtap="onGoToProfile">点击完善个人资料</button>
+    <view class="status">
+        <block wx:if="{{status === '1'}}">
+            <view>审核状态：审核通过</view>
+        </block>
+        <block wx:elif="{{status === '-1'}}">
+            <view>审核状态：已停用</view>
+        </block>
+        <block wx:else>
+            <view>审核状态：未审核</view>
+        </block>
+    </view>
+</view>
