@@ -1,20 +1,25 @@
 <view class="container">
-  <image src="cloud://pz-cloud-8gt0l6dj44c32e92.707a-pz-cloud-8gt0l6dj44c32e92-1303236498/background/register.jpg"></image>
-</view>
-<view class="login_box">
-  <view class="section">
-    <input placeholder="请输入用户名 / 手机号" value='{{mobile}}' placeholder-class="color" bindblur='mobile' />
-    <image src="https://7069-pintu-game-52d2a-1301643624.tcb.qcloud.la/pintu_icon/username.png"></image>
+  <view class='row'>
+    <input placeholder="真实姓名" bindblur='_handleUsername' />
   </view>
-  <view class="section">
-    <input password='true' placeholder="请输入密码" value='{{pass}}' placeholder-class="color" bindblur='pass' />
-    <image src="https://7069-pintu-game-52d2a-1301643624.tcb.qcloud.la/pintu_icon/pass.png"></image>
+  <view class='row'>
+    <input placeholder="单位名称" bindblur='_handleCompany' />
   </view>
-  <checkbox-group bindchange="checkboxChange">
-    <label class="checkbox" wx:for="{{items}}" wx:key='this'>
-      <checkbox value="{{item.name}}" checked="{{item.checked}}" />{{item.value}}
-    </label>
-  </checkbox-group>
-  <button class="login" type="primary" open-type="getUserInfo" bindgetuserinfo="bindGetUserInfo">登录</button>
-  <button class="register" type="warn" bindtap="register">没有账号，先注册</button>
+  <view class='row'>
+    <input placeholder="单位地址" bindblur='_handleComplace' />
+  </view>
+  <view class='row'>
+    <input password="true" placeholder="输入密码" bindblur='_handlePass1' />
+  </view>
+  <view class='row'>
+    <input password="true" placeholder="确认密码" bindblur='_handlePass2' />
+  </view>
+  <view class='row'>
+     <input placeholder='手机号' bindblur='_handleMobile'/> 
+  </view>
+  <view class='row codeButton'>
+     <input placeholder='输入验证码' bindblur='_handleRegCode'/> 
+     <button class='codeBtn' bindtap='sendSMS' disabled='{{captchaDisabled}}'>{{captchaTxt}}</button>
+  </view>
+  <button class="register" type="warn" open-type="getUserInfo" bindgetuserinfo="bindGetUserInfo">注册</button>
 </view>

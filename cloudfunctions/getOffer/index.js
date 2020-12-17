@@ -15,13 +15,12 @@ exports.main = async (event, context) => {
             price: event.price,
             pigId: event.pigId,
             campany: event.offerPigInfo.campany,
+            end_time: event.offerPigInfo.end_time,
             category: event.offerPigInfo.category,
             varityes: event.offerPigInfo.varityes,
             sale_place: event.offerPigInfo.sale_place,
             telephone: event.offerPigInfo.telephone,
             createTime: cloud.database().serverDate()
         }
-    }).then((res) => {
-        console.log('[插入记录] 成功：', res)
     })
 }

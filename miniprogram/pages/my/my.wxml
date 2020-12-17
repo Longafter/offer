@@ -29,12 +29,7 @@
 <block wx:else>
   <view class="items">
     <view class="items-offer" bindtap="onGetOfferLog">报价记录</view>
-    <!-- <block wx:if="{{status === '0'}}"> -->
-      <view class="items-profile" bindtap="onFirstOffer">初次报价进入</view>
-    <!-- </block> -->
-    <!-- <block wx:else>
-      <view class="items-profile" bindtap="onAlreadyFirstOffer">初次报价进入</view>
-    </block> -->
+    <view class="items-offer" bindtap="onGetOffer">中标记录</view>
     <view class="items-logout" bindtap="onGetLogout">退出登录</view>
   </view>
 </block>

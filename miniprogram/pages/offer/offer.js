@@ -6,16 +6,16 @@ Page({
      * 页面的初始数据
      */
     data: {
-        offerPigInfo: {},
-        number: '',
-        price: '',
-        rank: '',
-        userNum: '',
+        offerPigInfo: {},  // 报价猪只信息
+        number: '',  // 报价数量
+        price: '',  // 报价单价
+        rank: '',  // 报价排名
+        userNum: '',  // 报价人次
         lastOffer: '',  // 上次报价
         lastRank: '',  // 上次排名
         lastRankList: [],  // 上次排名列表
         disable: false,  // 报价按钮是否可点击
-        time: ''   // 倒计时
+        time: '',   // 倒计时
     },
 
     /**
@@ -45,12 +45,14 @@ Page({
         })
     },
 
+    // 获取报价单价
     getPrice(event) {
         this.setData({
             price: event.detail.value
         })
     },
 
+    // 获取报价数量
     getNumber(event) {
         this.setData({
             number: event.detail.value
@@ -91,6 +93,7 @@ Page({
                     listing_price: this.data.offerPigInfo.listing_price,
                     base_price: this.data.offerPigInfo.base_price,
                     base_widgt: this.data.offerPigInfo.base_widgt,
+                    end_time: this.data.offerPigInfo.end_time,
                     num: this.data.offerPigInfo.num,
                     company: this.data.offerPigInfo.company,
                     sale_place: this.data.offerPigInfo.sale_place,
@@ -107,6 +110,7 @@ Page({
                 })
                 this.getLastOffer()
                 this.offerRank()
+                this.isDeadline()
 
                 // 设置10s后再继续报价
                 let that = this
@@ -147,6 +151,7 @@ Page({
                             listing_price: this.data.offerPigInfo.listing_price,
                             base_price: this.data.offerPigInfo.base_price,
                             base_widgt: this.data.offerPigInfo.base_widgt,
+                            end_time: this.data.offerPigInfo.end_time,
                             num: this.data.offerPigInfo.num,
                             company: this.data.offerPigInfo.company,
                             sale_place: this.data.offerPigInfo.sale_place,
@@ -181,7 +186,7 @@ Page({
         }
     },
 
-    // 上次报价
+    // 获取上次报价单价
     getLastOffer() {
         db.collection('t_offer_all').where({
             username: wx.getStorageSync('username'),
@@ -190,7 +195,7 @@ Page({
         .orderBy('createTime', 'desc')
         .get()
         .then((res) => {
-            console.log('[上次报价][查找信息] 成功: ', res)
+            // console.log('[上次报价][查找信息] 成功: ', res)
             if (res.data.length > 0) {
                 this.setData({
                     lastOffer: res.data[0].price
@@ -199,22 +204,22 @@ Page({
         })
     },
 
-    // 获取上次排名
+    // 获取上次报价排名
     getLastRank() {
-        console.log('lastRankList: ', this.data.lastRankList)
-        console.log('rank: ', this.data.rank)
+        // console.log('lastRankList: ', this.data.lastRankList)
+        // console.log('rank: ', this.data.rank)
         this.setData({
             lastRankList: this.data.lastRankList.concat(this.data.rank)
         })
         let length = this.data.lastRankList.length
         let lastRank = this.data.lastRankList[length - 2]
-        console.log('lastRank: ', lastRank)
+        // console.log('lastRank: ', lastRank)
         this.setData({
             lastRank: lastRank
         })
     },
 
-    // 当前排名--报完一次价查询数据库进行排名
+    // 计算当前排名----报完一次价查询数据库进行排名
     offerRank() {
         wx.cloud.callFunction({
             name: 'getOfferRank',
@@ -222,7 +227,7 @@ Page({
                 pigId: this.data.offerPigInfo._id
             }
         }).then((res) => {
-            console.log('[报价排名][查找信息] 成功: ', res)
+            // console.log('[报价排名][查找信息] 成功: ', res)
             let userNum = res.result.data.length
             let username = wx.getStorageSync('username')
             for (let i = 0; i < userNum; i++) {
@@ -237,5 +242,18 @@ Page({
                 }
             }
         })
+    },
+
+    // 判断报价时间是否截止
+    isDeadline() {
+        let currentTime = util.formatTime(new Date())
+        // console.log('current_time: ', currentTime)
+        // console.log('end_time: ', this.data.offerPigInfo.end_time)
+        if (currentTime > this.data.offerPigInfo.end_time) {
+            wx.navigateBack({
+              delta: 2,
+            })
+            console.log('true')
+        }
     }
 })

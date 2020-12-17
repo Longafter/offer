@@ -19,9 +19,5 @@ exports.main = async (event, context) => {
             number: event.number,
             createTime: event.createTime
         }
-    }).then((res) => {
-        console.log('[更新记录] 成功：', res)
-    }).catch((err) => {
-        console.log('[更新记录] 失败：', err)
     })
 }

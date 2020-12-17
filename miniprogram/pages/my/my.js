@@ -148,7 +148,7 @@ Page({
   // 点击注册按钮，跳转到注册页面
   register() {
     wx.navigateTo({
-      url: "../login/login"
+      url: "../register/register"
     })
   },
 
@@ -245,39 +245,11 @@ Page({
     })
   },
 
-  // 消息订阅授权
-  // onMessageOrder() {
-  //   wx.requestSubscribeMessage({
-  //     tmplIds: ['bjkMz15CD4B3lnpF6l1fCUgvNe-Fan9gGp4oSQSS-1k'],  // 消息模板ID
-  //     success: (res) => {
-  //       console.log('[订阅消息][授权] 成功：', res)
-  //     },
-  //     fail: (err) => {
-  //       console.log('[订阅消息][授权] 失败：', err)
-  //     }
-  //   })
-  // },
-
-  // 初次报价进入
-  onFirstOffer() {
+  // 查看中标记录
+  onGetOffer() {
     let username = wx.getStorageSync('username')
     wx.navigateTo({
-      url: `../audit/audit?username=${username}`,
-    })
-  },
-
-  // 已经经过初次报价认证
-  onAlreadyFirstOffer() {
-    wx.showToast({
-      title: '已通过验证',
-      icon: 'none'
+      url: `../bidLog/bidLog?username=${username}`,
     })
   }
-
-  // 跳转至后台管理
-  // onGoToApp() {
-  //   wx.navigateTo({
-  //     url: '../out/out',
-  //   })
-  // }
 })

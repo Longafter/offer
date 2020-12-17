@@ -1,170 +1,271 @@
+// pages/mine/mine.js
+const CountDown = require('../../utils/countdown.js');
 const db = wx.cloud.database()
+const chars = ['0', '1', '2', '3', '4', '5', '6', '7', '8', '9']
+
 Page({
- 
-  /**
-   * 页面的初始数据
-   */
-  data: {
-    items: [{
-        name: '1',
-        checked: false,
-        value: '记住密码'
-    }],  //记住密码的复选框
-    isrememberpass: '',  //是否记住密码
-    mobile: '',  //用户名或者手机号
-    pass: ''  //密码
-  },
-  // 授权登录,这里我是先让用户授权才登录的，不需要的也可以直接放个登录按钮，不授权登录
-  bindGetUserInfo(event) {
-    console.log('event: ', event)
-    if (event.detail.userInfo) {
-        //用户按了允许授权按钮
-        wx.showLoading({
-            title: '正在登录...',
+    /**
+     * 页面的初始数据
+     */
+    data: {
+        username: '',
+        mobile: '',
+        code: '',  // 注册验证码
+        regCode: '',  // 用户填写的验证码
+        company: '',
+        complace: '',
+        pass1: '',
+        pass2: '',
+        status: '0'  // 账号状态：0-待审核；1-审核通过；-1-停用
+    },
+
+    /**
+     * 生命周期函数--监听页面加载
+     */
+    onLoad: function (options) {
+        this.countdown = new CountDown(this);
+    },
+
+    // username失去焦点
+    _handleUsername(e) {
+        // console.log('e: ', e)
+        this.setData({
+            username: e.detail.value
         })
-        if (this.data.mobile == '') {
+    },
+
+    // company失去焦点
+    _handleCompany(e) {
+        // console.log('e: ', e)
+        this.setData({
+            company: e.detail.value
+        })
+    },
+
+    // camplace失去焦点
+    _handleComplace(e) {
+        // console.log('e: ', e)
+        this.setData({
+            complace: e.detail.value
+        })
+    },
+
+    // pass1失去焦点
+    _handlePass1(e) {
+        // console.log('e: ', e)
+        this.setData({
+            pass1: e.detail.value
+        })
+    },
+
+    // pass2失去焦点
+    _handlePass2(e) {
+        // console.log('e: ', e)
+        this.setData({
+            pass2: e.detail.value
+        })
+    },
+
+    // mobile失去焦点
+    _handleMobile(e) {
+        // console.log('e: ', e)
+        let mobile = e.detail.value
+        this.setData({
+            mobile: mobile
+        })
+    },
+
+    // regCode失去焦点
+    _handleRegCode(e) {
+        this.setData({
+            regCode: e.detail.value
+        })
+    },
+
+    // 生成验证码
+    generateMixed(n) {
+        let res = ''
+        for (let i = 0; i < n; i++) {
+            let id = Math.ceil(Math.random() * 9)
+            res += chars[id]
+        }
+        return res
+    },
+
+    //获取短信验证码
+    sendSMS() {
+        if (this.data.mobile.length != 11) {
             wx.showToast({
-                title: '用户名或手机号不能为空',
-                icon: 'none',
-                duration: 2000
+              title: '请输入11位手机号',
+              icon: 'none'
             })
-        } else if (this.data.pass == '') {
-            wx.showToast({
-            title: '密码不能为空',
-            icon: 'none',
-            duration: 2000
-            })
-        } else {
-            // 登录接口
-            var parame = {}
-            // 此处要先判断你输入的是用户名还是手机号，用户名就要用户名的字段去查，手机号就要使用手机号的字段去查
-            if (!(/^1[3456789]\d{9}$/.test(this.data.mobile))) {  //验证手机号码是否正确的正则表达式
-                // 不是手机号，说明是输入的用户名
-                parame = {
-                    username: this.data.mobile
-                }
-            } else {
-                // 输入的手机号
-                parame = {
-                    mobile: this.data.mobile
-                }
+            return
+        }
+        this.countdown.start();
+        
+        console.log(this.data.mobile)
+        let code = this.generateMixed(6)  // 6位数验证码
+        let mobile = this.data.mobile
+        console.log('本地生成的验证码：', code)
+        wx.cloud.callFunction({
+            name: 'sendSms',
+            data: {
+                mobile: mobile,
+                code: code
             }
-        db.collection('t_user_account').where(parame)  //查询语句
-            .get()
-            .then((res) => {
-                wx.hideLoading()
-                if (res.data == '') {  //为空说明没有查到数据
-                    wx.showToast({
-                    title: '用户不存在',
+        }).then((res) => {
+            console.log('[注册验证码][发送成功] ', res)
+            this.setData({
+                code: code
+            })
+        }).catch((err) => {
+            console.log('[注册验证码][发送失败] ', err)
+        })
+    },
+    
+    // 注册
+    bindGetUserInfo(event) {
+        console.log('event: ', event)
+        if (event.detail.userInfo) {
+            // 用户允许授权
+            wx.showLoading({
+              title: '正在注册...',
+            })
+            if (this.data.username == '') {
+                wx.showToast({
+                  title: '用户名不能为空',
+                  icon: 'none',
+                  duration: 2000
+                })
+            } else if (this.data.mobile == '') {
+                wx.showToast({
+                  title: '手机号不能为空',
+                  icon: 'none',
+                  duration: 2000
+                })
+            } else if (this.data.company == '') {
+                wx.showToast({
+                  title: '单位名称不能为空',
+                  icon: 'none',
+                  duration: 2000
+                })
+            }  else if (this.data.complace == '') {
+                wx.showToast({
+                  title: '单位地址不能为空',
+                  icon: 'none',
+                  duration: 2000
+                })
+            }  else if (!(/^1[3456789]\d{9}$/.test(this.data.mobile))) {
+                wx.showToast({
+                    title: '手机号码格式有误，请重新输入！',
                     icon: 'none',
-                    duration: 3000
-                    })
-                } else {  //不为空说明查询到数据了
-                    if (res.data[0].pass1 == this.data.pass) {  //查询到数据后再判断用户输入的密码是否正确
-                        wx.showToast({
-                            title: '登录成功',
-                            icon: 'none',
-                            duration: 3000
+                    duration: 2000
+                })
+            } else if (this.data.code == '') {
+                wx.showToast({
+                    title: '验证码不能为空',
+                    icon: 'none',
+                    duration: 2000
+                })
+            } else if (this.data.regCode != this.data.code) {
+                wx.showToast({
+                    title: '验证码错误',
+                    icon: 'none',
+                    duration: 2000
+                })
+            } else if (this.data.pass1 == '') {
+                wx.showToast({
+                    title: '密码不能为空',
+                    icon: 'none',
+                    duration: 2000
+                })
+            } else if (this.data.pass2 == '') {
+                wx.showToast({
+                    title: '请再次输入密码',
+                    icon: 'none',
+                    duration: 2000
+                })
+            } else if (this.data.pass1 != this.data.pass2) {
+                wx.showToast({
+                    title: '两次密码输入不一致，请重新输入！',
+                    icon: 'none',
+                    duration: 2000
+                })
+            } else {
+                db.collection('t_user_account').where({
+                    username: this.data.username
+                })
+                .get()
+                .then((res) => {
+                    console.log('[注册][查找记录] 成功：', res)
+                    // 判断用户名是否被注册过，为空说明没查询到，即没有注册
+                    if (res.data.length == 0) {
+                        db.collection('t_user_account').where({
+                            mobile: this.data.mobile
                         })
-                        if (this.data.isrememberpass != '') { //判断用户是否勾选了记住密码
-                            // 勾选了则存储到本地缓存
-                            wx.setStorage({
-                                key: 'pass',
-                                data: this.data.pass,
-                            })
-                        } else { //不记住密码，删除缓存
-                            wx.removeStorage({
-                                key: 'pass',
-                                success: function(res) {},
-                            })
-                        }
-                        wx.setStorage({ //存储用户名
-                            key: 'username',
-                            data: this.data.mobile,
-                        })
-                        wx.setStorage({//存储用户的信息id，作为userId
-                            key: 'userId',
-                            data: res.data[0]._id,
-                        })
-                        // 这里还可以写一些登录成功后的操作，比如登录成功后跳转到首页之类的
-                        wx.switchTab({
-                          url: '../my/my',
+                        .get()
+                        .then((res) => {
+                            if (res.data.length == 0) { //判断手机号是否被注册过，等于空说明没被查询到，就是没有注册过，
+                                // 获取当前时间，写入数据库，可以知道此账号是何时创建
+                                var myDate = new Date()
+                                var y = myDate.getFullYear()
+                                var m = myDate.getMonth() + 1
+                                var d = myDate.getDate()
+                                var h = myDate.getHours()
+                                var ms = myDate.getMinutes()
+                                var s = myDate.getSeconds()
+                                var time = y + '-' + m + '-' + d + ' ' + h + ':' + ms + ':' + s
+                                db.collection('t_user_account').add({
+                                    data: {
+                                        username: this.data.username,
+                                        mobile: this.data.mobile,
+                                        company: this.data.company,
+                                        complace: this.data.complace,
+                                        pass1: this.data.pass1,
+                                        time: time,
+                                        status: this.data.status
+                                    }
+                                }).then((res) => {
+                                    console.log(res)
+                                    if (res.errMsg == 'collection.add:ok') {
+                                        wx.hideLoading()
+                                        wx.showToast({
+                                            title: '注册成功',
+                                            icon: 'none'
+                                        })
+                                        wx.switchTab({
+                                          url: '../my/my',
+                                        })
+                                    }
+                                })
+                            } else {
+                                wx.showToast({
+                                    title: '此手机号已被别人注册，换一个试试！',
+                                    icon: 'none',
+                                    duration: 2000
+                                })
+                            }
                         })
                     } else {
                         wx.showToast({
-                            title: '密码错误',
+                            title: '此用户名已被别人注册，换一个试试！',
                             icon: 'none',
-                            duration: 3000
-                        })
+                            duration: 2000
+                          })
                     }
-                }
+                }).catch((err) => {
+                    console.log('[注册][查找记录] 失败：', err)
+                })
+            }
+        } else {
+            //用户按了拒绝按钮
+            wx.showModal({
+                title: '警告',
+                content: '您点击了拒绝授权，将无法进行账号注册，请授权之后再注册!!!',
+                showCancel: false,
+                confirmText: '返回授权',
+                success: function(res) {}
             })
         }
-    } else {
-        //用户按了拒绝按钮
-        wx.showModal({
-            title: '警告',
-            content: '您点击了拒绝授权，将无法进行账号登录，请授权之后再登录!!!',
-            showCancel: false,
-            confirmText: '返回授权',
-            success: function(res) {}
-        })
     }
-  },
-  // 用户名失焦
-  mobile(e) {
-    this.setData({
-      mobile: e.detail.value
-    })
-  },
-  // 密码失焦
-  pass(e) {
-    this.setData({
-      pass: e.detail.value
-    })
-  },
-  // 记住密码复选框
-  checkboxChange: function(e) {
-    this.setData({
-      isrememberpass: e.detail.value
-    })
-  },
-  // 点击注册按钮，跳转到注册页面
-  register() {
-    wx.navigateTo({
-      url: "../login/login"
-    })
-  },
-  /**
-   * 生命周期函数--监听页面加载
-   */
-  onLoad: function(options) {
- 
-  },
- 
-  /**
-   * 生命周期函数--监听页面初次渲染完成
-   */
-  onReady: function() {
- 
-  },
- 
-  /**
-   * 生命周期函数--监听页面显示
-   */
-  onShow: function () {  //这一段是登录界面初始进入页面时，判断如果没有缓存密码，就说明没有记住密码，只需要显示用户名就行了，如果缓存了密码，说明是记住密码的，要从缓存中获取用户名和密码都显示出来
-    if (wx.getStorageSync('pass') != '') {
-      var check = 'items.[0].checked'
-      this.setData({
-        mobile: wx.getStorageSync('username'),
-        pass: wx.getStorageSync('pass'),
-        [check]: true,
-        isrememberpass: ["1"]
-      })
-    } else {
-      this.setData({
-        mobile: wx.getStorageSync('username'),
-      })
-    }
-  }
 })

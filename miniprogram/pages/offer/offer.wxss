@@ -42,6 +42,10 @@
 .footer {
     margin-top: 100rpx;
 }
+.footer .end {
+    background-color: rgba(255, 106, 106, 0.5);
+    color: white;
+}
 .items {
     display: flex;
     flex-direction: row;
