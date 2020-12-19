@@ -1,2 +1,43 @@
-<!--pages/bidLog/bidLog.wxml-->
-<text>pages/bidLog/bidLog.wxml</text>
+<view class="box">
+  <view class="head">
+    <block wx:if="{{selected1}}">
+      <view class="color" bindtap="_handleGetBid">已中标</view>
+    </block>
+    <block wx:else>
+      <view bindtap="_handleGetBid">已中标</view>
+    </block>
+    <block wx:if="{{selected2}}">
+      <view class="color" bindtap="_handleNoBid">未中标</view>
+    </block>
+    <block wx:else>
+      <view bindtap="_handleNoBid">未中标</view>
+    </block>
+  </view>
+  <view class="body">
+    <block wx:if="{{bidLogList.length === 0}}">
+        <text>暂无记录</text>
+    </block>
+    <block wx:else>
+      <block wx:for="{{bidLogList}}" wx:key="index">
+          <view class="items" data-pigId="{{item.pigId}}" data-index="{{index}}" bindtap="onGoToPigInfo">
+              <text>种类：{{item.category}}</text>
+              <text>品种：{{item.varieties}}</text>
+              <text>公司：{{item.company}}</text>
+              <text>交易地点：{{item.sale_place}}</text>
+              <text>报价时间：{{item.createTime}}</text>
+              <text>均重：{{item.avg_widgt}} kg/头</text>
+              <text>数量：{{item.num}} 头</text>
+              <text hidden="{{item.base_widgt ? false : true}}">规格：{{item.base_widgt}} kg</text>
+              <block wx:if="{{item.base_widgt}}">
+                  <text>超重挂牌价：{{item.listing_price}} 元/公斤</text>
+              </block>
+              <block wx:else>
+                  <text>挂牌价：{{item.listing_price}} 元/公斤</text>
+              </block>
+              <text>购买数量：{{item.number}} 头</text>
+              <text>报价单价：{{item.price}} 元/公斤</text>
+          </view>
+      </block>
+    </block>
+  </view>
+</view>

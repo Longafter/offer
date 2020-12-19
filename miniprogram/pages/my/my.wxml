@@ -29,7 +29,7 @@
 <block wx:else>
   <view class="items">
     <view class="items-offer" bindtap="onGetOfferLog">报价记录</view>
-    <view class="items-offer" bindtap="onGetOffer">中标记录</view>
+    <view class="items-offer" bindtap="onGetOffer">投标记录</view>
     <view class="items-logout" bindtap="onGetLogout">退出登录</view>
   </view>
 </block>

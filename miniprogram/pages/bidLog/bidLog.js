@@ -1,66 +1,80 @@
-// pages/bidLog/bidLog.js
-Page({
+const db = wx.cloud.database()
+const username = wx.getStorageSync('username')
 
+Page({
   /**
    * 页面的初始数据
    */
   data: {
-
+    selected1: true,
+    selected2: false,
+    selected3: false,
+    bidLogList: [],
+    bid: '-1'  // 是否中标
   },
 
   /**
    * 生命周期函数--监听页面加载
    */
   onLoad: function (options) {
-    console.log(options)
+    // console.log(options)
+    this.showBid(username, '1')
   },
 
-  /**
-   * 生命周期函数--监听页面初次渲染完成
-   */
-  onReady: function () {
-
+  showBid(username, bid) {
+      db.collection('t_offer').where({
+          username: username,
+          bid: bid
+      })
+      .orderBy('createTime', 'desc')
+      .get()
+      .then((res) => {
+          console.log('[中标][查询记录] 成功：', res)
+          this.setData({
+              bidLogList: res.data
+          })
+      })
+      .catch((err) => {
+          console.log('[中标][查询记录] 失败：', err)
+      })
   },
 
-  /**
-   * 生命周期函数--监听页面显示
-   */
-  onShow: function () {
-
+  // 中标
+  _handleGetBid() {
+      this.setData({
+        selected1: true,
+        selected2: false,
+        selected3: false
+      })
+      this.showBid(username, '1')
   },
 
-  /**
-   * 生命周期函数--监听页面隐藏
-   */
-  onHide: function () {
-
+  // 未中标
+  _handleNoBid() {
+    this.setData({
+      selected1: false,
+      selected2: true,
+      selected3: false
+    })
+    this.showBid(username, '-1')
   },
 
-  /**
-   * 生命周期函数--监听页面卸载
-   */
-  onUnload: function () {
+  //
+  // _handleGoOn() {
+  //   this.setData({
+  //     selected1: false,
+  //     selected2: false,
+  //     selected3: true
+  //   })
+  //   this.showBid(username, '0')
+  // },
 
-  },
-
-  /**
-   * 页面相关事件处理函数--监听用户下拉动作
-   */
-  onPullDownRefresh: function () {
-
-  },
-
-  /**
-   * 页面上拉触底事件的处理函数
-   */
-  onReachBottom: function () {
-
-  },
-
-  /**
-   * 用户点击右上角分享
-   */
-  onShareAppMessage: function () {
-
+    // 跳转至猪只详情页
+    onGoToPigInfo(event) {
+      console.log('event:', event)
+      let pigId = event.currentTarget.dataset.pigid
+      wx.navigateTo({
+        url: `../../pages/pigDetail/pigDetail?pigid=${pigId}`,
+      })
   }
 })
