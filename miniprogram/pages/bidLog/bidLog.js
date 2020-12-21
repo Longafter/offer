@@ -1,5 +1,4 @@
 const db = wx.cloud.database()
-const username = wx.getStorageSync('username')
 
 Page({
   /**
@@ -18,6 +17,7 @@ Page({
    */
   onLoad: function (options) {
     // console.log(options)
+    let username = options.username
     this.showBid(username, '1')
   },
 
@@ -46,7 +46,7 @@ Page({
         selected2: false,
         selected3: false
       })
-      this.showBid(username, '1')
+      this.showBid(wx.getStorageSync('username'), '1')
   },
 
   // 未中标
@@ -56,7 +56,7 @@ Page({
       selected2: true,
       selected3: false
     })
-    this.showBid(username, '-1')
+    this.showBid(wx.getStorageSync('username'), '-1')
   },
 
   //
@@ -66,7 +66,7 @@ Page({
   //     selected2: false,
   //     selected3: true
   //   })
-  //   this.showBid(username, '0')
+  //   this.showBid(wx.getStorageSync('username'), '0')
   // },
 
     // 跳转至猪只详情页

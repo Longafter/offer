@@ -54,11 +54,11 @@ Page({
                     icon: 'none'
                 })
                 // 未完善个人资料时延迟两秒跳转至个人中心页
-                setTimeout(() => {
-                    wx.switchTab({
-                        url: '../my/my',
-                    })
-                }, 2000);
+                // setTimeout(() => {
+                //     wx.switchTab({
+                //         url: '../my/my',
+                //     })
+                // }, 2000);
             } else {
                 wx.showToast({
                     title: '你的账号已停用，请联系管理员解冻',
